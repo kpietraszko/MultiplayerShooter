@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Client : MonoBehaviour
 {
+	public static event EventHandler OnConnectedToServer;
 	private const int serverPort = 8888;
 	private int ClientSocketId;
 	private int ConnectionId;
@@ -39,19 +41,20 @@ public class Client : MonoBehaviour
 		var networkEvent = NetworkTransport.Receive(out hostId, out connectionId, out channelId, recBuffer, recBuffer.Length * sizeof(byte), out receivedSize, out error);
 		switch (networkEvent)
 		{
-		case NetworkEventType.DataEvent:
-			break;
-		case NetworkEventType.ConnectEvent:
-			Debug.Log($"Connect event at frame {Time.frameCount}");
-			break;
-		case NetworkEventType.DisconnectEvent:
-			break;
-		case NetworkEventType.Nothing:
-			break;
-		case NetworkEventType.BroadcastEvent:
-			break;
-		default:
-			break;
+			case NetworkEventType.DataEvent:
+				break;
+			case NetworkEventType.ConnectEvent:
+				Debug.Log($"Connect event at frame {Time.frameCount}");
+				OnConnectedToServer?.Invoke(this, EventArgs.Empty);
+				break;
+			case NetworkEventType.DisconnectEvent:
+				break;
+			case NetworkEventType.Nothing:
+				break;
+			case NetworkEventType.BroadcastEvent:
+				break;
+			default:
+				break;
 		}
 	}
 }

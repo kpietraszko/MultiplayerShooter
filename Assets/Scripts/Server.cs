@@ -10,11 +10,19 @@ public class Server : MonoBehaviour
 
 	private void Start()
 	{
+		Client.OnConnectedToServer += OnClientConnected;
 		NetworkTransport.Init();
 		var config = new ConnectionConfig();
 		ReliableChannelId = config.AddChannel(QosType.Reliable);
 		var topology = new HostTopology(config, 8);
 		SocketId = NetworkTransport.AddHost(topology, 8888);
+	}
+
+	private void OnClientConnected(object sender, System.EventArgs e)
+	{
+		Debug.Log("Imma connection event handler :)");
+		NetworkTransport.Send(SocketId, )
+
 	}
 
 	private void Update()
