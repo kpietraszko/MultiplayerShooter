@@ -497,7 +497,7 @@ PlayerSettings:
   webGLUseWasm: 0
   webGLCompressionFormat: 1
   scriptingDefineSymbols:
-    1: test
+    1: UNITY
   platformArchitecture: {}
   scriptingBackend: {}
   incrementalIl2cppBuild: {}
