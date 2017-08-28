@@ -11,6 +11,7 @@ public class BuildSettings: EditorWindow
 	static void Init()
 	{
 		var window = GetWindow<BuildSettings>();
+		window.titleContent = new GUIContent("Build Settings");
 		window.minSize = MinSize;
 		window.Show();
 	}
