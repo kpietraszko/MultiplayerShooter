@@ -15,35 +15,35 @@ public class Client :IFixedUpdatable, INetEventListener
 	}
 	public void FixedUpdate()
 	{
-
+		_netClient.PollEvents(); //calls delegates of INetEventListener implemented below
+		if (_netClient.GetFirstPeer()?.ConnectionState == ConnectionState.Connected)
+		{
+			Debug.Log("Sending...");
+			_netClient.GetFirstPeer().Send(new byte[] { 0, 1, 0, 1, 0, 1, 0, 1 }, SendOptions.ReliableUnordered);
+		}
 	}
 	public void OnNetworkError(NetEndPoint endPoint, int socketErrorCode)
 	{
-		throw new System.NotImplementedException();
+		Debug.Log("Network error: " + socketErrorCode);
 	}
 
 	public void OnNetworkLatencyUpdate(NetPeer peer, int latency)
 	{
-		throw new System.NotImplementedException();
 	}
 
 	public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 	{
-		throw new System.NotImplementedException();
 	}
 
 	public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
 	{
-		throw new System.NotImplementedException();
 	}
 
 	public void OnPeerConnected(NetPeer peer)
 	{
-		throw new System.NotImplementedException();
 	}
 
 	public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
 	{
-		throw new System.NotImplementedException();
 	}
 }

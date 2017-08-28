@@ -16,7 +16,7 @@ public class BuildSettings: EditorWindow
 	}
 	void OnGUI()
 	{
-		ServerDefine = EditorGUILayout.Toggle(new GUIContent("Server"), ServerDefine);
+		ServerDefine = EditorGUILayout.ToggleLeft("Server", ServerDefine);
 		string textToAdd = ServerDefine ? ";SERVER" : "";
 		PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, "UNITY" + textToAdd);
 	}

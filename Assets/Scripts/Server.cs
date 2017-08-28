@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LiteNetLib;
 using LiteNetLib.Utils;
+using System.Text;
 
 public class Server :IFixedUpdatable, INetEventListener
 {
@@ -15,7 +16,6 @@ public class Server :IFixedUpdatable, INetEventListener
 	public void FixedUpdate()
 	{
 		_netServer.PollEvents(); //calls delegates of INetEventListener implemented below
-		Debug.Log("_netServer.PeersCount = " + _netServer.PeersCount);
 	}
 	//New remote peer connected to host, or client connected to remote host
 	public void OnPeerConnected(NetPeer peer)
@@ -33,7 +33,12 @@ public class Server :IFixedUpdatable, INetEventListener
 
 	public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 	{
-		throw new System.NotImplementedException();
+		byte[] receivedBytes = new byte[8];
+		reader.GetBytes(receivedBytes, receivedBytes.Length);
+		StringBuilder testString = new StringBuilder();
+		foreach (var @byte in receivedBytes)
+			testString.Append(@byte);
+		Debug.Log("receivedBytes  = " + testString);
 	}
 
 	public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
