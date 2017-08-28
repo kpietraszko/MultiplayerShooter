@@ -4,31 +4,27 @@ using UnityEngine;
 using LiteNetLib;
 using LiteNetLib.Utils;
 
-public class Server :IFixedUpdatable, INetEventListener
+public class Client :IFixedUpdatable, INetEventListener
 {
-	NetManager _netServer;
-	public Server(string connectionKey, int port)
+	NetManager _netClient;
+	public Client(string connectionKey, string serverIp, int serverPort)
 	{
-		_netServer = new NetManager(this, connectionKey);
-		_netServer.Start(port);
+		_netClient = new NetManager(this, connectionKey);
+		_netClient.Start(); //gets available port
+		_netClient.Connect(serverIp, serverPort);
 	}
 	public void FixedUpdate()
 	{
-		_netServer.PollEvents(); //calls delegates of INetEventListener implemented below
-		Debug.Log("_netServer.PeersCount = " + _netServer.PeersCount);
-	}
-	//New remote peer connected to host, or client connected to remote host
-	public void OnPeerConnected(NetPeer peer)
-	{
-		Debug.Log($"Peer {peer} connected to server");
+
 	}
 	public void OnNetworkError(NetEndPoint endPoint, int socketErrorCode)
 	{
-		Debug.Log("Network error: " + socketErrorCode);
+		throw new System.NotImplementedException();
 	}
 
 	public void OnNetworkLatencyUpdate(NetPeer peer, int latency)
 	{
+		throw new System.NotImplementedException();
 	}
 
 	public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
@@ -38,9 +34,16 @@ public class Server :IFixedUpdatable, INetEventListener
 
 	public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
 	{
+		throw new System.NotImplementedException();
 	}
+
+	public void OnPeerConnected(NetPeer peer)
+	{
+		throw new System.NotImplementedException();
+	}
+
 	public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
 	{
-		Debug.Log($"Peer {peer} disconnected: {disconnectInfo}");
+		throw new System.NotImplementedException();
 	}
 }

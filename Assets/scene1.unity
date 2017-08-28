@@ -276,6 +276,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1278327440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1278327442}
+  - component: {fileID: 1278327441}
+  m_Layer: 0
+  m_Name: NetworkInit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1278327441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1278327440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70cd4821632c0094c92f178e33513a56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameVersion: 1
+  ConnectIpAddress: 127.0.0.1
+  ServerPort: 8888
+--- !u!4 &1278327442
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1278327440}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.043162227, y: 0.4585222, z: -0.23513126}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345088537
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,8 +414,6 @@ GameObject:
   - component: {fileID: 2110850987}
   - component: {fileID: 2110850986}
   - component: {fileID: 2110850985}
-  - component: {fileID: 2110850990}
-  - component: {fileID: 2110850989}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -444,25 +485,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2110850989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2110850984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2527e83bc3c7784f8f6f4e372b300de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2110850990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2110850984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e457dc6b96941cf479272375a67d2a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
