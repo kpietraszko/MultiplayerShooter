@@ -13,16 +13,9 @@ public class Server :IFixedUpdatable, INetEventListener
 	public Server(string connectionKey, int port)
 	{
 		_serializer = new NetSerializer();
-		_serializer.SubscribeReusable<ExamplePacketClass>(OnExamplePacketReceive);
+		_serializer.Subscribe()
 		_netServer = new NetManager(this, connectionKey);
 		_netServer.Start(port);
-	}
-
-	private void OnExamplePacketReceive(ExamplePacketClass obj)
-	{
-		Debug.Log(obj);
-		string objText = $"id:{obj.id}, x:{obj.x}, y:{obj.y}, z:{obj.z}";
-		Debug.Log(objText);
 	}
 
 	public void FixedUpdate()
@@ -46,7 +39,7 @@ public class Server :IFixedUpdatable, INetEventListener
 	public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 	{
 		Debug.Log("Server received something");
-		_serializer.ReadPacket(reader);
+		_serializer.ReadAllPackets(reader);
 	}
 
 	public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
