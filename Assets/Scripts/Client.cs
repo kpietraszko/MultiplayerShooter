@@ -7,8 +7,10 @@ using LiteNetLib.Utils;
 public class Client :IFixedUpdatable, INetEventListener
 {
 	NetManager _netClient;
+	NetSerializer _serializer;
 	public Client(string connectionKey, string serverIp, int serverPort)
 	{
+		_serializer = new NetSerializer();
 		_netClient = new NetManager(this, connectionKey);
 		_netClient.Start(); //gets available port
 		_netClient.Connect(serverIp, serverPort);
@@ -16,11 +18,6 @@ public class Client :IFixedUpdatable, INetEventListener
 	public void FixedUpdate()
 	{
 		_netClient.PollEvents(); //calls delegates of INetEventListener implemented below
-		if (_netClient.GetFirstPeer()?.ConnectionState == ConnectionState.Connected)
-		{
-			Debug.Log("Sending...");
-			_netClient.GetFirstPeer().Send(new byte[] { 0, 1, 0, 1, 0, 1, 0, 1 }, SendOptions.ReliableUnordered);
-		}
 	}
 	public void OnNetworkError(NetEndPoint endPoint, int socketErrorCode)
 	{
@@ -41,6 +38,9 @@ public class Client :IFixedUpdatable, INetEventListener
 
 	public void OnPeerConnected(NetPeer peer)
 	{
+		Debug.Log("Connected to server");
+		ExamplePacketClass packet = new ExamplePacketClass{id=1, x=24, y=7, z=18};
+		peer.Send(_serializer.Serialize(packet), SendOptions.ReliableUnordered);
 	}
 
 	public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)

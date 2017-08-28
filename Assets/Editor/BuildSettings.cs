@@ -6,7 +6,7 @@ using UnityEditor;
 public class BuildSettings: EditorWindow
 {
 	bool ServerDefine = true;
-	static Vector2 MinSize = new Vector2(10, 20);
+	static Vector2 MinSize = new Vector2(10, 22);
 	[MenuItem("My tools/Build Settings")]
 	static void Init()
 	{
@@ -17,8 +17,6 @@ public class BuildSettings: EditorWindow
 	}
 	void OnGUI()
 	{
-		EditorGUILayout.BeginHorizontal();
-		EditorGUIUtility.labelWidth = 30;
 		//EditorGUILayout.LabelField("Server", EditorStyles.largeLabel, GUILayout.Width(50));
 		//ServerDefine = EditorGUILayout.Toggle(ServerDefine, EditorStyles.radioButton, GUILayout.Width(15));
 		//ServerDefine = !EditorGUILayout.Toggle(!ServerDefine, EditorStyles.radioButton, GUILayout.Width(15));
@@ -26,7 +24,6 @@ public class BuildSettings: EditorWindow
 		int selected = ServerDefine ? 0 : 1;
 		ServerDefine = GUILayout.SelectionGrid(selected, new string[] { "Server", "Client" }, 2) == 0;
 		EditorGUIUtility.labelWidth = 0;
-		EditorGUILayout.EndHorizontal();
 	/*	ServerDefine = EditorGUILayout.ToggleLeft("Server", ServerDefine);*/
 		string textToAdd = ServerDefine ? ";SERVER" : "";
 		PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, "UNITY" + textToAdd);
