@@ -17,7 +17,17 @@ public class BuildSettings: EditorWindow
 	}
 	void OnGUI()
 	{
-		ServerDefine = EditorGUILayout.ToggleLeft("Server", ServerDefine);
+		EditorGUILayout.BeginHorizontal();
+		EditorGUIUtility.labelWidth = 30;
+		//EditorGUILayout.LabelField("Server", EditorStyles.largeLabel, GUILayout.Width(50));
+		//ServerDefine = EditorGUILayout.Toggle(ServerDefine, EditorStyles.radioButton, GUILayout.Width(15));
+		//ServerDefine = !EditorGUILayout.Toggle(!ServerDefine, EditorStyles.radioButton, GUILayout.Width(15));
+		//EditorGUILayout.LabelField("Client", EditorStyles.largeLabel, GUILayout.ExpandWidth(false));
+		int selected = ServerDefine ? 0 : 1;
+		ServerDefine = GUILayout.SelectionGrid(selected, new string[] { "Server", "Client" }, 2) == 0;
+		EditorGUIUtility.labelWidth = 0;
+		EditorGUILayout.EndHorizontal();
+	/*	ServerDefine = EditorGUILayout.ToggleLeft("Server", ServerDefine);*/
 		string textToAdd = ServerDefine ? ";SERVER" : "";
 		PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, "UNITY" + textToAdd);
 	}
