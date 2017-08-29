@@ -13,7 +13,7 @@ public class Server :IFixedUpdatable, INetEventListener
 	public Server(string connectionKey, int port)
 	{
 		_serializer = new NetSerializer();
-		_serializer.Subscribe()
+		//_serializer.Subscribe()
 		_netServer = new NetManager(this, connectionKey);
 		_netServer.Start(port);
 	}
