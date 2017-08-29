@@ -7,9 +7,11 @@ public class FirstPersonController : MonoBehaviour
 	[SerializeField]
 	ControlsSO _controls;
 	IInput _input;
+	Rigidbody _rigidbody;
 	void Start()
 	{
-		_input = new PlayerInput();
+		_input = new PlayerInput(); //pass _controls here in the future
+		_rigidbody = GetComponent<Rigidbody>();
 	}
 
 	void Update()
@@ -19,6 +21,7 @@ public class FirstPersonController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-
+		//float xForce = _input.GetAxis(AxisType.Movement, AxisDir.Horizontal);
+		//_rigidbody.AddForce()
 	}
 }

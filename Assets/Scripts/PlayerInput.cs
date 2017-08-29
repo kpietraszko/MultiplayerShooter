@@ -3,23 +3,29 @@ using System.Collections.Generic;
 
 public class PlayerInput : IInput
 {
-	private readonly Dictionary<Axis, Vector2> _axes = new Dictionary<Axis, Vector2>()
+	//private readonly Dictionary<Action, KeyCode> _keys; //for later, get from Controls SO
+	private readonly Dictionary<AxisType, Vector2> _axes = new Dictionary<AxisType, Vector2>()
 	{
-		{ Axis.Movement, Vector2.zero},
-		{ Axis.Look, Vector2.zero }
+		{ AxisType.Movement, Vector2.zero},
+		{ AxisType.Look, Vector2.zero }
 	};
 
-	public float GetAxis(Axis axis, AxisDir dir)
+	public Vector2 GetAxes(AxisType axisType)
 	{
-		var axisVector = _axes[axis];
+		return _axes[axisType];
+	}
+
+	public float GetAxis(AxisType axisType, AxisDir dir)
+	{
+		var axisVector = _axes[axisType];
 		var value = dir == AxisDir.Horizontal ? axisVector.x : axisVector.y;
 		return value;
 	}
 
 	public void UpdateInput()
 	{
-		_axes[Axis.Movement] = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-		_axes[Axis.Look] = new Vector2(Input.GetAxisRaw("MouseX"), Input.GetAxisRaw("MouseY"));
+		_axes[AxisType.Movement] = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+		_axes[AxisType.Look] = new Vector2(Input.GetAxisRaw("MouseX"), Input.GetAxisRaw("MouseY"));
 	}
 
 }
