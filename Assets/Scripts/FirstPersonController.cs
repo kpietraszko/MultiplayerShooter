@@ -5,6 +5,8 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour
 {
 	[SerializeField]
+	float ForceMultiplier = 1f;
+	[SerializeField]
 	ControlsSO _controls;
 	IInput _input;
 	Rigidbody _rigidbody;
@@ -21,7 +23,7 @@ public class FirstPersonController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		//float xForce = _input.GetAxis(AxisType.Movement, AxisDir.Horizontal);
-		//_rigidbody.AddForce()
+		var movement = _input.GetAxes(AxisType.Movement).normalized * ForceMultiplier;
+		_rigidbody.AddForce(movement.x, 0, movement.y, ForceMode.Force);
 	}
 }
