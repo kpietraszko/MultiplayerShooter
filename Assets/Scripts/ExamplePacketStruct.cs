@@ -1,30 +1,25 @@
 ﻿using UdpKit;
+using UnityEngine;
 public struct ExamplePacketStruct
 {
 	public int id;
-	public float x;
-	public float y;
-	public float z;
+	public Vector3 position;
 	public byte[] Pack()
 	{
 		byte[] data = new byte[16];
 		var stream = new UdpBitStream(data, data.Length);
 		stream.WriteInt(id);
-		stream.WriteFloat(x);
-		stream.WriteFloat(y);
-		stream.WriteFloat(z);
-		return stream.Data;
+		stream.WriteVector3Half(position);
+		return data;
 	}
 	public void Unpack(byte[] data)
 	{
 		var stream = new UdpBitStream(data, data.Length);
 		id = stream.ReadInt();
-		x = stream.ReadFloat();
-		y = stream.ReadFloat();
-		z = stream.ReadFloat();
+		position = stream.ReadVector3Half();
 	}
 	public override string ToString()
 	{
-		return $"id:{id}, x:{x}, y:{y}, z:{z}";
+		return $"id:{id}, position: ({position.x},{position.y},{position.z})";
 	}
 }

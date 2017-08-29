@@ -48,7 +48,7 @@ namespace UdpKit
 			get { return Ptr > Length; }
 		}
 
-		internal UdpBitStream(byte[] arr, int size)
+		public UdpBitStream(byte[] arr, int size)
 		{
 			Ptr = 0;
 			Data = arr;
@@ -418,6 +418,16 @@ namespace UdpKit
 		public long ReadLong()
 		{
 			return ReadLong(64);
+		}
+
+		public void WriteHalf(float value)
+		{
+			WriteUShort(SlimMath.HalfUtilities.Pack(value), 16);
+		}
+
+		public float ReadHalf()
+		{
+			return SlimMath.HalfUtilities.Unpack(ReadUShort(16));
 		}
 
 		public void WriteFloat(float value)

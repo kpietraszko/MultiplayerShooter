@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LiteNetLib;
 using LiteNetLib.Utils;
+using UnityEngine; //TODO: remove
 
 public class Client :IFixedUpdatable, INetEventListener
 {
@@ -40,7 +41,7 @@ public class Client :IFixedUpdatable, INetEventListener
 	public void OnPeerConnected(NetPeer peer)
 	{
 		Debug.Log("Connected to server");
-		ExamplePacketStruct packet = new ExamplePacketStruct{id=11, x=24, y=7, z=18};
+		ExamplePacketStruct packet = new ExamplePacketStruct{id=11, position=new Vector3(24, 7, 18)};
 		peer.Send(packet.Pack(), SendOptions.ReliableUnordered);
 	}
 
