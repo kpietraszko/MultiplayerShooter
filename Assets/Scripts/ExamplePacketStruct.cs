@@ -9,14 +9,14 @@ public struct ExamplePacketStruct
 		byte[] data = new byte[16];
 		var stream = new UdpBitStream(data, data.Length);
 		stream.WriteInt(id);
-		stream.WriteVector3Half(position);
+		stream.WriteVector3(position);
 		return data;
 	}
 	public void Unpack(byte[] data)
 	{
 		var stream = new UdpBitStream(data, data.Length);
 		id = stream.ReadInt();
-		position = stream.ReadVector3Half();
+		position = stream.ReadVector3();
 	}
 	public override string ToString()
 	{
