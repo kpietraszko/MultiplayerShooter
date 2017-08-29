@@ -5,12 +5,19 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour
 {
 	[SerializeField]
-	ControlsSO Controls;
+	ControlsSO _controls;
+	IInput _input;
 	void Start()
 	{
+		_input = new PlayerInput();
 	}
 
 	void Update()
+	{
+		_input.UpdateInput();
+	}
+
+	void FixedUpdate()
 	{
 
 	}
