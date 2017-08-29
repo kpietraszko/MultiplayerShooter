@@ -7,7 +7,7 @@ public class NetworkInitializer : MonoBehaviour
 	[SerializeField]
 	string GameVersion;
 	[SerializeField]
-	string ConnectIpAddress;
+	string ServerIpAddress;
 	[SerializeField]
 	int ServerPort = 8888;
 
@@ -20,8 +20,13 @@ public class NetworkInitializer : MonoBehaviour
 		serverOrclient = new Server(GameVersion, ServerPort);
 #else
 		Debug.Log("Creating client");
-		serverOrclient = new Client(GameVersion, ConnectIpAddress, ServerPort);
+		serverOrclient = new Client(GameVersion);
 #endif
+	}
+	public void ConnectClientToServer()
+	{
+		Debug.Log("Button pressed, connecting");
+		((Client)serverOrclient).ConnectToServer(ServerIpAddress, ServerPort);
 	}
 	void FixedUpdate()
 	{

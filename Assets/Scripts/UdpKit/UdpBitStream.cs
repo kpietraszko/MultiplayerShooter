@@ -420,16 +420,6 @@ namespace UdpKit
 			return ReadLong(64);
 		}
 
-		public void WriteHalf(float value)
-		{
-			WriteUShort(SlimMath.HalfUtilities.Pack(value), 16);
-		}
-
-		public float ReadHalf()
-		{
-			return SlimMath.HalfUtilities.Unpack(ReadUShort(16));
-		}
-
 		public void WriteFloat(float value)
 		{
 			UdpByteConverter bytes = value;

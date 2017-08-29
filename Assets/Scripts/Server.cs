@@ -9,11 +9,8 @@ using System;
 public class Server :IFixedUpdatable, INetEventListener
 {
 	NetManager _netServer;
-	NetSerializer _serializer;
 	public Server(string connectionKey, int port)
 	{
-		_serializer = new NetSerializer();
-		//_serializer.Subscribe()
 		_netServer = new NetManager(this, connectionKey);
 		_netServer.Start(port);
 	}
@@ -39,7 +36,10 @@ public class Server :IFixedUpdatable, INetEventListener
 	public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 	{
 		Debug.Log("Server received something");
-		_serializer.ReadAllPackets(reader);
+		ExamplePacketStruct packet = new ExamplePacketStruct();
+		packet.Unpack(reader.Data);
+
+		Debug.Log($"packet = {packet}; it's {reader.AvailableBytes} bytes");
 	}
 
 	public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
