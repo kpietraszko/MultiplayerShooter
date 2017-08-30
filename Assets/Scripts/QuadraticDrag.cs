@@ -8,6 +8,7 @@ public class QuadraticDrag : MonoBehaviour
 	[SerializeField]
 	float DragConstant = 1;
 	Rigidbody rb;
+	Vector3 drag;
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
@@ -16,7 +17,8 @@ public class QuadraticDrag : MonoBehaviour
 	void FixedUpdate()
 	{
 		var velocity = rb.velocity;
-		var drag = DragConstant * Vector3.Scale(velocity,velocity); //constant * velocity^2
+		var dragAlong = DragConstant * Vector3.Scale(velocity,velocity); //constant * velocity^2
+		drag = dragAlong * -1;
 		rb.AddForce(drag, ForceMode.Force);
 	}
 
