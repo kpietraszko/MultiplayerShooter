@@ -529,6 +529,7 @@ GameObject:
   - component: {fileID: 797045855}
   - component: {fileID: 797045854}
   - component: {fileID: 797045859}
+  - component: {fileID: 797045860}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Untagged
@@ -575,7 +576,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 797045853}
   serializedVersion: 2
-  m_Mass: 50
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 1
@@ -589,7 +590,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 797045853}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4f390c1c7aa5e53489bd42eec9178fbb, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -628,8 +629,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96e7126f655dbe4b8e6cc98de4b893a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForceMultiplier: 1000
+  ForceMultiplier: 200
   _controls: {fileID: 11400000, guid: 30db6280a0d331f438cddd4ac700a28c, type: 2}
+--- !u!114 &797045860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 797045853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294392e1b5cdcd14c8cfcca675a99774, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DragConstant: 0.4
 --- !u!1 &812964449
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,7 +865,7 @@ Transform:
   m_GameObject: {fileID: 1345088537}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2

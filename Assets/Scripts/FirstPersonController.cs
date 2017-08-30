@@ -8,6 +8,8 @@ public class FirstPersonController : MonoBehaviour
 	float ForceMultiplier = 1f;
 	[SerializeField]
 	ControlsSO _controls;
+	[SerializeField]
+	float MaxSpeed = Mathf.Infinity;
 	IInput _input;
 	Rigidbody _rigidbody;
 	void Start()
@@ -24,6 +26,7 @@ public class FirstPersonController : MonoBehaviour
 	void FixedUpdate()
 	{
 		var movement = _input.GetAxes(AxisType.Movement).normalized * ForceMultiplier;
-		_rigidbody.AddForce(movement.x, 0, movement.y, ForceMode.Force);
+		if(_rigidbody.velocity.magnitude < MaxSpeed)
+			_rigidbody.AddForce(movement.x, 0, movement.y, ForceMode.Force);
 	}
 }
