@@ -29,6 +29,7 @@ public class FirstPersonController : MonoBehaviour
 	void Update()
 	{
 		_input.UpdateInput();
+
 	}
 
 	void FixedUpdate()
