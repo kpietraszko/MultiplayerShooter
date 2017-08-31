@@ -31,6 +31,7 @@ public class FirstPersonController : MonoBehaviour
 	{
 		_input = new PlayerInput(); //pass _controls here in the future
 		_rigidbody = GetComponent<Rigidbody>();
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	void Update()
@@ -57,8 +58,9 @@ public class FirstPersonController : MonoBehaviour
 		Force = new Vector3(movement.x, 0f, movement.y) * ForceMultiplier;
 		Drag = DragConstant * SignedVectorSquare(Velocity);
 		var netForce = Force - Drag;
+		var netForceRelCam = FPPCamera.TransformDirection(netForce);
 		if (_rigidbody.velocity.magnitude < MaxSpeed)
-			_rigidbody.AddForce(netForce * Time.fixedDeltaTime, ForceMode.Force);
+			_rigidbody.AddForce(netForceRelCam * Time.fixedDeltaTime, ForceMode.Force);
 		#region timeToStop
 		if (Mathf.Approximately(Velocity.x, 0f))
 		{
@@ -74,10 +76,10 @@ public class FirstPersonController : MonoBehaviour
 	{
 		var mouseMovement = _input.GetAxes(AxisType.Look);
 
-		var verticalRotation = Quaternion.AngleAxis(mouseMovement.y * MouseSensitivity, transform.right); //variable rotation axis
+		var verticalRotation = Quaternion.AngleAxis(-mouseMovement.y * MouseSensitivity, transform.right); //variable rotation axis
 		FPPCamera.rotation = verticalRotation * FPPCamera.rotation;
 
-		var horizontalRotation = Quaternion.AngleAxis(mouseMovement.x * MouseSensitivity * 6f, Vector3.up); //rotation axis is constant here
+		var horizontalRotation = Quaternion.AngleAxis(mouseMovement.x * MouseSensitivity * 1f, Vector3.up); //rotation axis is constant here
 		transform.rotation = horizontalRotation * transform.rotation;
 	}
 
