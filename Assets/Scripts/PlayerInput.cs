@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-enum PlayerAction { Jump, Shoot}
+
 public class PlayerInput : IInput
 {
 	private readonly Dictionary<PlayerAction, KeyCode> _keys = new Dictionary<PlayerAction, KeyCode>();//for later, get from Controls SO
@@ -25,6 +25,15 @@ public class PlayerInput : IInput
 		var axisVector = _axes[axisType];
 		var value = dir == AxisDir.Horizontal ? axisVector.x : axisVector.y;
 		return value;
+	}
+
+	public bool WasKeyJustPressed(PlayerAction action)
+	{
+		KeyCode keyCode;
+		if (_keys.TryGetValue(action, out keyCode)){
+			return Input.GetKeyDown(keyCode);
+		}
+		else throw new KeyNotFoundException("PlayerInput doesn't have a key assigned to " + action.ToString());
 	}
 
 	public void UpdateInput()

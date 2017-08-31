@@ -45,7 +45,10 @@ public class FirstPersonController : MonoBehaviour
 	{
 		Move();
 		//if jumpkey and !IsGrounded() jump
+		if (_input.WasKeyJustPressed(PlayerAction.Jump))
+			Jump();
 	}
+
 
 	void Move()
 	{
@@ -86,6 +89,11 @@ public class FirstPersonController : MonoBehaviour
 
 		var horizontalRotation = Quaternion.AngleAxis(mouseMovement.x * MouseSensitivity * 1f, Vector3.up); //rotation axis is constant here
 		transform.rotation = horizontalRotation * transform.rotation;
+	}
+
+	private void Jump()
+	{
+		_rigidbody.AddForce(0f, 1000f, 0f, ForceMode.Impulse);
 	}
 
 	Vector3 SignedVectorSquare(Vector3 vector)
