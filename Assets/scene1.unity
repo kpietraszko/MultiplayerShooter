@@ -669,7 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96e7126f655dbe4b8e6cc98de4b893a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForceMultiplier: 340
+  ForceMultiplier: 20400
   _controls: {fileID: 11400000, guid: 30db6280a0d331f438cddd4ac700a28c, type: 2}
   MaxSpeed: 6
   DragConstant: 2

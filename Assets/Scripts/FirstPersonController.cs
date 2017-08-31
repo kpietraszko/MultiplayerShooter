@@ -19,6 +19,7 @@ public class FirstPersonController : MonoBehaviour
 	int StopTime; //debug
 	Vector3 Force; //debug
 	Vector3 Drag; //debug
+
 	System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 	void Start()
 	{
@@ -46,7 +47,7 @@ public class FirstPersonController : MonoBehaviour
 		Drag = DragConstant * SignedVectorSquare(Velocity);
 		var netForce = Force - Drag;
 		if (_rigidbody.velocity.magnitude < MaxSpeed)
-			_rigidbody.AddForce(netForce, ForceMode.Force);
+			_rigidbody.AddForce(netForce*Time.fixedDeltaTime, ForceMode.Force);
 		#region timeToStop
 		if (Mathf.Approximately(Velocity.x, 0f))
 		{
