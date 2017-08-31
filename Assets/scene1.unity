@@ -649,7 +649,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 797045853}
-  m_LocalRotation: {x: 0, y: 0.07906804, z: 0, w: 0.99686927}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -673,6 +673,8 @@ MonoBehaviour:
   _controls: {fileID: 11400000, guid: 30db6280a0d331f438cddd4ac700a28c, type: 2}
   MaxSpeed: 6
   DragConstant: 2
+  FPPCamera: {fileID: 812964450}
+  MouseSensitivity: 2
 --- !u!1 &812964449
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,7 +700,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 812964449}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -742,7 +744,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.4
   far clip plane: 1000
   field of view: 60
   orthographic: 0

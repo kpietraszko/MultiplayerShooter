@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,10 @@ public class FirstPersonController : MonoBehaviour
 	float MaxSpeed = Mathf.Infinity;
 	[SerializeField]
 	float DragConstant = 0.1f;
+	[SerializeField]
+	Transform FPPCamera;
+	[SerializeField]
+	float MouseSensitivity = 2f;
 
 	IInput _input;
 	Rigidbody _rigidbody;
@@ -21,6 +26,7 @@ public class FirstPersonController : MonoBehaviour
 	Vector3 Drag; //debug
 
 	System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
 	void Start()
 	{
 		_input = new PlayerInput(); //pass _controls here in the future
@@ -30,10 +36,15 @@ public class FirstPersonController : MonoBehaviour
 	void Update()
 	{
 		_input.UpdateInput();
-
+		Rotate();
 	}
 
 	void FixedUpdate()
+	{
+		Move();
+	}
+
+	void Move()
 	{
 		#region timeToStop
 		if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
@@ -47,7 +58,7 @@ public class FirstPersonController : MonoBehaviour
 		Drag = DragConstant * SignedVectorSquare(Velocity);
 		var netForce = Force - Drag;
 		if (_rigidbody.velocity.magnitude < MaxSpeed)
-			_rigidbody.AddForce(netForce*Time.fixedDeltaTime, ForceMode.Force);
+			_rigidbody.AddForce(netForce * Time.fixedDeltaTime, ForceMode.Force);
 		#region timeToStop
 		if (Mathf.Approximately(Velocity.x, 0f))
 		{
@@ -58,6 +69,18 @@ public class FirstPersonController : MonoBehaviour
 		}
 		#endregion
 	}
+
+	private void Rotate()
+	{
+		var mouseMovement = _input.GetAxes(AxisType.Look);
+
+		var verticalRotation = Quaternion.AngleAxis(mouseMovement.y * MouseSensitivity, transform.right); //variable rotation axis
+		FPPCamera.rotation = verticalRotation * FPPCamera.rotation;
+
+		var horizontalRotation = Quaternion.AngleAxis(mouseMovement.x * MouseSensitivity * 6f, Vector3.up); //rotation axis is constant here
+		transform.rotation = horizontalRotation * transform.rotation;
+	}
+
 	Vector3 SignedVectorSquare(Vector3 vector)
 	{
 		return Vector3.Scale(vector, new Vector3(Mathf.Abs(vector.x), Mathf.Abs(vector.y), Mathf.Abs(vector.z)));
