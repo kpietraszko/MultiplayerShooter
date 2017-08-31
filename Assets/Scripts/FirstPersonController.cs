@@ -21,6 +21,7 @@ public class FirstPersonController : MonoBehaviour
 	IInput _input;
 	Rigidbody _rigidbody;
 	Vector3 Velocity; //debug
+	float VelocityMagn; //debug
 	int StopTime; //debug
 	Vector3 Force; //debug
 	Vector3 Drag; //debug
@@ -29,7 +30,7 @@ public class FirstPersonController : MonoBehaviour
 
 	void Start()
 	{
-		_input = new PlayerInput(); //pass _controls here in the future
+		_input = new PlayerInput(_controls); //pass _controls here in the future
 		_rigidbody = GetComponent<Rigidbody>();
 		Cursor.lockState = CursorLockMode.Locked;
 	}
@@ -43,6 +44,7 @@ public class FirstPersonController : MonoBehaviour
 	void FixedUpdate()
 	{
 		Move();
+		//if jumpkey and !IsGrounded() jump
 	}
 
 	void Move()
@@ -53,14 +55,17 @@ public class FirstPersonController : MonoBehaviour
 			sw.Start();
 		}
 		#endregion
-		var movement = _input.GetAxes(AxisType.Movement).normalized;
+		var movementInput = _input.GetAxes(AxisType.Movement);
+		var cameraForwardFlattened = Vector3.ProjectOnPlane(FPPCamera.forward, Vector3.up).normalized;
+		var cameraRightFlattened = Vector3.ProjectOnPlane(FPPCamera.right, Vector3.up).normalized;
+		var movement = cameraForwardFlattened * movementInput.y + cameraRightFlattened * movementInput.x;
 		Velocity = _rigidbody.velocity;
-		Force = new Vector3(movement.x, 0f, movement.y) * ForceMultiplier;
+		VelocityMagn = Velocity.magnitude;
+		Force = movement * ForceMultiplier;
 		Drag = DragConstant * SignedVectorSquare(Velocity);
 		var netForce = Force - Drag;
-		var netForceRelCam = FPPCamera.TransformDirection(netForce);
 		if (_rigidbody.velocity.magnitude < MaxSpeed)
-			_rigidbody.AddForce(netForceRelCam * Time.fixedDeltaTime, ForceMode.Force);
+			_rigidbody.AddForce(netForce * Time.fixedDeltaTime, ForceMode.Force);
 		#region timeToStop
 		if (Mathf.Approximately(Velocity.x, 0f))
 		{
