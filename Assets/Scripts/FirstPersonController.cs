@@ -25,6 +25,7 @@ public class FirstPersonController : MonoBehaviour
 	int StopTime; //debug
 	Vector3 Force; //debug
 	Vector3 Drag; //debug
+	bool Grounded;
 
 	System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -44,8 +45,8 @@ public class FirstPersonController : MonoBehaviour
 	void FixedUpdate()
 	{
 		Move();
-		//if jumpkey and !IsGrounded() jump
-		if (_input.WasKeyJustPressed(PlayerAction.Jump))
+
+		if (_input.WasKeyJustPressed(PlayerAction.Jump) && Grounded)
 			Jump();
 	}
 
@@ -93,8 +94,21 @@ public class FirstPersonController : MonoBehaviour
 
 	private void Jump()
 	{
-		_rigidbody.AddForce(0f, 1000f, 0f, ForceMode.Impulse);
+		_rigidbody.AddForce(0f, 20f, 0f, ForceMode.Impulse);
 	}
+
+	void OnCollisionEnter(Collision collision)
+	{
+		if (collision.transform.CompareTag("Ground"))
+			Grounded = true;
+	}
+
+	void OnCollisionExit(Collision collision)
+	{
+		if (collision.transform.CompareTag("Ground"))
+			Grounded = false;
+	}
+
 
 	Vector3 SignedVectorSquare(Vector3 vector)
 	{

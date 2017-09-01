@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
-  m_Fog: 1
+  m_Fog: 0
   m_FogColor: {r: 0.9176471, g: 1, b: 1, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -671,7 +671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ForceMultiplier: 20400
   _controls: {fileID: 11400000, guid: 30db6280a0d331f438cddd4ac700a28c, type: 2}
-  MaxSpeed: 6
+  MaxSpeed: 7
   DragConstant: 2
   FPPCamera: {fileID: 812964450}
   MouseSensitivity: 2
@@ -833,7 +833,7 @@ GameObject:
   - component: {fileID: 1345088539}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
