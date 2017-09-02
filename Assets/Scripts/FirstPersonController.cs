@@ -18,7 +18,7 @@ public class FirstPersonController : MonoBehaviour
 	[SerializeField]
 	float MouseSensitivity = 2f;
 
-	IInput _input;
+	public IInput Input { get; private set; }
 	Rigidbody _rigidbody;
 	Vector3 Velocity; //debug
 	float VelocityMagn; //debug
@@ -29,16 +29,20 @@ public class FirstPersonController : MonoBehaviour
 
 	System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
+	void Awake()
+	{
+		Input = new PlayerInput(_controls);
+	}
+
 	void Start()
 	{
-		_input = new PlayerInput(_controls); //pass _controls here in the future
 		_rigidbody = GetComponent<Rigidbody>();
 		Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	void Update()
 	{
-		_input.UpdateInput();
+		Input.UpdateInput();
 		Rotate();
 	}
 
@@ -46,7 +50,7 @@ public class FirstPersonController : MonoBehaviour
 	{
 		Move();
 
-		if (_input.WasKeyJustPressed(PlayerAction.Jump) && Grounded)
+		if (Input.WasKeyJustPressed(PlayerAction.Jump) && Grounded)
 			Jump();
 	}
 
@@ -54,12 +58,12 @@ public class FirstPersonController : MonoBehaviour
 	void Move()
 	{
 		#region timeToStop
-		if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+		if (UnityEngine.Input.GetKeyUp(KeyCode.A) || UnityEngine.Input.GetKeyUp(KeyCode.D))
 		{
 			sw.Start();
 		}
 		#endregion
-		var movementInput = _input.GetAxes(AxisType.Movement);
+		var movementInput = Input.GetAxes(AxisType.Movement);
 		var cameraForwardFlattened = Vector3.ProjectOnPlane(FPPCamera.forward, Vector3.up).normalized;
 		var cameraRightFlattened = Vector3.ProjectOnPlane(FPPCamera.right, Vector3.up).normalized;
 		var movement = cameraForwardFlattened * movementInput.y + cameraRightFlattened * movementInput.x;
@@ -83,7 +87,7 @@ public class FirstPersonController : MonoBehaviour
 
 	private void Rotate()
 	{
-		var mouseMovement = _input.GetAxes(AxisType.Look);
+		var mouseMovement = Input.GetAxes(AxisType.Look);
 
 		var verticalRotation = Quaternion.AngleAxis(-mouseMovement.y * MouseSensitivity, transform.right); //variable rotation axis
 		FPPCamera.rotation = verticalRotation * FPPCamera.rotation;
