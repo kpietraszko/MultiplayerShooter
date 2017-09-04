@@ -4,11 +4,11 @@ using UdpKit;
 
 public struct StateAndInput
 {
-	State state;
-	Vector2 movementInput;
-	Vector2 lookInput;
-	bool jumpInput;
-	bool shootInput;
+	public State state;
+	public Vector2 movementInput;
+	public Vector2 lookInput;
+	public bool jumpInput;
+	public bool shootInput;
 
 	public byte[] Pack()
 	{

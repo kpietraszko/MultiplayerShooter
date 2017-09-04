@@ -36,10 +36,6 @@ public class Server :IFixedUpdatable, INetEventListener
 	public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 	{
 		Debug.Log("Server received something");
-		ExamplePacketStruct packet = new ExamplePacketStruct();
-		packet.Unpack(reader.Data);
-
-		Debug.Log($"packet = {packet}; it's {reader.AvailableBytes} bytes");
 	}
 
 	public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)
