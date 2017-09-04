@@ -9,6 +9,7 @@ using System;
 public class Server :IFixedUpdatable, INetEventListener
 {
 	NetManager _netServer;
+	public static event Action<NetDataReader> ServerReceived;
 	public Server(string connectionKey, int port)
 	{
 		_netServer = new NetManager(this, connectionKey);
@@ -35,7 +36,7 @@ public class Server :IFixedUpdatable, INetEventListener
 
 	public void OnNetworkReceive(NetPeer peer, NetDataReader reader)
 	{
-		Debug.Log("Server received something");
+		ServerReceived?.Invoke(reader);
 	}
 
 	public void OnNetworkReceiveUnconnected(NetEndPoint remoteEndPoint, NetDataReader reader, UnconnectedMessageType messageType)

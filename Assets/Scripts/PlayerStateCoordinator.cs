@@ -1,5 +1,4 @@
-﻿#if !SERVER
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 using LiteNetLib;
 using System;
@@ -11,31 +10,43 @@ public class PlayerStateCoordinator : MonoBehaviour
 	FirstPersonController _controller;
 	Transform trans;
 	Rigidbody _rigidbody;
+#if !SERVER
 	Queue<State> StatesFromServer;
 	NetPeer Server;
 	bool ConnectedToServer = false;
+#endif
 
 	void OnEnable()
 	{
+#if !SERVER
 		Client.ClientConnectedToServer += OnClientConnectedToServer;
 		Client.ClientReceived += OnClientReceivedData;
+#else
+		Server.ServerReceived += OnServerReceivedData;
+#endif
 	}
-
 
 	void OnDisable()
 	{
+#if !SERVER
 		Client.ClientConnectedToServer -= OnClientConnectedToServer;
+#else
+		Server.ServerReceived -= OnServerReceivedData;
+#endif
 	}
 
 	void Start()
 	{
+#if !SERVER
 		StatesFromServer = new Queue<State>();
+#endif
 		_controller = GetComponent<FirstPersonController>();
 		_rigidbody = GetComponent<Rigidbody>();
 		_input = _controller.Input;
 		trans = transform;
 	}
 
+#if !SERVER
 	private void OnClientConnectedToServer(NetPeer peer)
 	{
 		Server = peer;
@@ -52,8 +63,21 @@ public class PlayerStateCoordinator : MonoBehaviour
 		{
 			var stateAndInput = ConstructStateAndInput(ConstructState());
 			Server.Send(stateAndInput.Pack(), SendOptions.Unreliable);
-			Debug.Log($"Sent position: {stateAndInput.state.position}, moveInput: {stateAndInput.movementInput}");
+			UnityEngine.Debug.Log($"Sent {stateAndInput.state}");
 		}
+	}
+#else
+	void FixedUpdate()
+	{
+
+	}
+#endif
+
+	private void OnServerReceivedData(NetDataReader reader)
+	{
+		var stateAndInput = new StateAndInput();
+		stateAndInput.Unpack(reader.Data);
+		UnityEngine.Debug.Log($"Received {stateAndInput.state}");
 	}
 
 	State ConstructState()
@@ -82,4 +106,3 @@ public class PlayerStateCoordinator : MonoBehaviour
 	}
 
 }
-#endif

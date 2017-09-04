@@ -25,7 +25,7 @@ public struct StateAndInput
 		return data;
 	}
 
-	public void Unpack(byte[] data)
+	public void Unpack(byte[] data) //should this be reversed (read end to beginning)?
 	{
 		var stream = new UdpBitStream(data, data.Length);
 		state = new State();
