@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UdpKit;
+using LiteNetLib.Utils;
 
 public struct StateAndInput
 {
@@ -12,30 +12,38 @@ public struct StateAndInput
 
 	public byte[] Pack()
 	{
-		var data = new byte[61];
+		var data = new byte[1200];
 		var stream = new UdpBitStream(data, data.Length);
-		stream.WriteInt(state.index, 32);
-		stream.WriteVector3(state.position);
-		stream.WriteQuaternion(state.rotation);
-		stream.WriteVector3(state.velocity);
-		stream.WriteVector2(movementInput);
-		stream.WriteVector2(lookInput);
+		//stream.WriteInt(state.index, 32);
+		UdpBitStreamExt.WriteVector3(ref stream, state.position);
+		UdpBitStreamExt.WriteQuaternion(ref stream, state.rotation);
+		UdpBitStreamExt.WriteVector3(ref stream, state.velocity);
+		UdpBitStreamExt.WriteVector2(ref stream, movementInput);
+		UdpBitStreamExt.WriteVector2(ref stream, lookInput);
 		stream.WriteBool(jumpInput);
 		stream.WriteBool(shootInput);
 		return data;
 	}
 
-	public void Unpack(byte[] data) //should this be reversed (read end to beginning)?
+	public void Unpack(NetDataReader reader)
 	{
+		byte[] data = reader.Data;
 		var stream = new UdpBitStream(data, data.Length);
-		state = new State();
-		state.index = stream.ReadInt(32);
-		state.position = stream.ReadVector3();
-		state.rotation = stream.ReadQuaternion();
-		state.velocity = stream.ReadVector3();
-		movementInput = stream.ReadVector2();
-		lookInput = stream.ReadVector2();
+		state = new State
+		{
+			//index = stream.ReadInt(32),
+			position = UdpBitStreamExt.ReadVector3(ref stream),
+			rotation = UdpBitStreamExt.ReadQuaternion(ref stream),
+			velocity = UdpBitStreamExt.ReadVector3(ref stream)
+		};
+		movementInput = UdpBitStreamExt.ReadVector2(ref stream);
+		lookInput = UdpBitStreamExt.ReadVector2(ref stream);
 		jumpInput = stream.ReadBool();
 		shootInput = stream.ReadBool();
+	}
+
+	public override string ToString()
+	{
+		return $"lookInput: {lookInput}, jumpInput: {jumpInput}";
 	}
 }

@@ -37,7 +37,7 @@ public class FirstPersonController : MonoBehaviour
 	void Start()
 	{
 		_rigidbody = GetComponent<Rigidbody>();
-		Cursor.lockState = CursorLockMode.Locked;
+		//Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	void Update()

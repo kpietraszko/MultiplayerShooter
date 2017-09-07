@@ -62,7 +62,8 @@ public class PlayerStateCoordinator : MonoBehaviour
 		if (ConnectedToServer)
 		{
 			var stateAndInput = ConstructStateAndInput(ConstructState());
-			Server.Send(stateAndInput.Pack(), SendOptions.Unreliable);
+			var packed = stateAndInput.Pack();
+			Server.Send(packed, SendOptions.ReliableOrdered);
 			UnityEngine.Debug.Log($"Sent {stateAndInput.state}");
 		}
 	}
@@ -76,7 +77,7 @@ public class PlayerStateCoordinator : MonoBehaviour
 	private void OnServerReceivedData(NetDataReader reader)
 	{
 		var stateAndInput = new StateAndInput();
-		stateAndInput.Unpack(reader.Data);
+		stateAndInput.Unpack(reader);
 		UnityEngine.Debug.Log($"Received {stateAndInput.state}");
 	}
 

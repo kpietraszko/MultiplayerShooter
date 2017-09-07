@@ -23,6 +23,7 @@
 */
 
 using System;
+using UnityEngine;
 
 namespace UdpKit
 {
@@ -41,6 +42,12 @@ namespace UdpKit
 		public bool Done
 		{
 			get { return Ptr == Length; }
+		}
+
+		// Added by emotitron
+		public int BytesUsed
+		{
+			get { return Ptr / 8 + ((Ptr % 8 == 0) ? 0 : 1); }
 		}
 
 		public bool Overflowing
@@ -256,10 +263,10 @@ namespace UdpKit
 		public void WriteUInt(uint value, int bits)
 		{
 			byte
-				 a = (byte) (value >> 0),
-					 b = (byte) (value >> 8),
-					 c = (byte) (value >> 16),
-					 d = (byte) (value >> 24);
+				a = (byte)(value >> 0),
+				b = (byte)(value >> 8),
+				c = (byte)(value >> 16),
+				d = (byte)(value >> 24);
 
 			switch ((bits + 7) / 8)
 			{
@@ -268,8 +275,8 @@ namespace UdpKit
 				break;
 
 			case 2:
-				WriteByte(b, 8);
-				WriteByte(c, bits - 8);
+				WriteByte(a, 8);
+				WriteByte(b, bits - 8);
 				break;
 
 			case 3:
@@ -290,10 +297,10 @@ namespace UdpKit
 		public uint ReadUInt(int bits)
 		{
 			int
-				 a = 0,
-					 b = 0,
-					 c = 0,
-					 d = 0;
+				a = 0,
+				b = 0,
+				c = 0,
+				d = 0;
 
 			switch ((bits + 7) / 8)
 			{
@@ -302,8 +309,8 @@ namespace UdpKit
 				break;
 
 			case 2:
-				b = ReadByte(8);
-				c = ReadByte(bits - 8);
+				a = ReadByte(8);
+				b = ReadByte(bits - 8);
 				break;
 
 			case 3:
@@ -354,14 +361,14 @@ namespace UdpKit
 		}
 
 		/*
-		public void wEnum32<T> (T value, int bits) where T : struct {
-			 wS32(udpUtils.enumToInt(value), bits);
-		}
+        public void wEnum32<T> (T value, int bits) where T : struct {
+            wS32(udpUtils.enumToInt(value), bits);
+        }
 
-		public T rEnum32<T> (int bits) where T : struct {
-			 return udpUtils.intToEnum<T>(rS32(bits));
-		}
-		*/
+        public T rEnum32<T> (int bits) where T : struct {
+            return udpUtils.intToEnum<T>(rS32(bits));
+        }
+        */
 
 		public void WriteULong(ulong value, int bits)
 		{

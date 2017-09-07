@@ -10,6 +10,6 @@ public struct State
 
 	public override string ToString()
 	{
-		return $"index: {index}, position: {position}, rotation: {rotation}, velocity: {velocity}";
+		return $"position: {position}, rotation: {rotation}, velocity: {velocity}";
 	}
 }
