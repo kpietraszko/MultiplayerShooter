@@ -26,6 +26,7 @@ public class FirstPersonController : MonoBehaviour
 	Vector3 Force; //debug
 	Vector3 Drag; //debug
 	bool Grounded;
+	float verticalAngle = 0f;
 
 	System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
@@ -93,7 +94,14 @@ public class FirstPersonController : MonoBehaviour
 	{
 		var mouseMovement = Input.GetAxes(AxisType.Look);
 
-		var verticalRotation = Quaternion.AngleAxis(-mouseMovement.y * MouseSensitivity, transform.right); //variable rotation axis
+		var verticalAngleToAdd = -mouseMovement.y * MouseSensitivity;
+		if (verticalAngleToAdd + verticalAngle > 90f || verticalAngleToAdd + verticalAngle < -90f)
+			verticalAngleToAdd = 0f;
+		else
+		{
+			verticalAngle += verticalAngleToAdd;
+		}
+		var verticalRotation = Quaternion.AngleAxis(verticalAngleToAdd, transform.right); //variable rotation axis
 		FPPCamera.rotation = verticalRotation * FPPCamera.rotation;
 
 		var horizontalRotation = Quaternion.AngleAxis(mouseMovement.x * MouseSensitivity * 1f, Vector3.up); //rotation axis is constant here
