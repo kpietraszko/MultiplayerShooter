@@ -21,8 +21,11 @@ public class BuildSettings: EditorWindow
 		//ServerDefine = EditorGUILayout.Toggle(ServerDefine, EditorStyles.radioButton, GUILayout.Width(15));
 		//ServerDefine = !EditorGUILayout.Toggle(!ServerDefine, EditorStyles.radioButton, GUILayout.Width(15));
 		//EditorGUILayout.LabelField("Client", EditorStyles.largeLabel, GUILayout.ExpandWidth(false));
+		var previousState = ServerDefine;
 		int selected = ServerDefine ? 0 : 1;
 		ServerDefine = GUILayout.SelectionGrid(selected, new string[] { "Server", "Client" }, 2) == 0;
+		if (ServerDefine != previousState)
+			PlayerSettings.productName = ServerDefine ? "Server" : "Client";
 		EditorGUIUtility.labelWidth = 0;
 	/*	ServerDefine = EditorGUILayout.ToggleLeft("Server", ServerDefine);*/
 		string textToAdd = ServerDefine ? ";SERVER" : "";

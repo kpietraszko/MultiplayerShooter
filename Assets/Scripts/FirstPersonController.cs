@@ -31,7 +31,11 @@ public class FirstPersonController : MonoBehaviour
 
 	void Awake()
 	{
+#if !SERVER
 		Input = new PlayerInput(_controls);
+#else
+		Input = new ServerInput();
+#endif
 	}
 
 	void Start()
@@ -57,12 +61,12 @@ public class FirstPersonController : MonoBehaviour
 
 	void Move()
 	{
-		#region timeToStop
+#region timeToStop
 		if (UnityEngine.Input.GetKeyUp(KeyCode.A) || UnityEngine.Input.GetKeyUp(KeyCode.D))
 		{
 			sw.Start();
 		}
-		#endregion
+#endregion
 		var movementInput = Input.GetAxes(AxisType.Movement);
 		var cameraForwardFlattened = Vector3.ProjectOnPlane(FPPCamera.forward, Vector3.up).normalized;
 		var cameraRightFlattened = Vector3.ProjectOnPlane(FPPCamera.right, Vector3.up).normalized;
@@ -74,7 +78,7 @@ public class FirstPersonController : MonoBehaviour
 		var netForce = Force - Drag;
 		if (_rigidbody.velocity.magnitude < MaxSpeed)
 			_rigidbody.AddForce(netForce * Time.fixedDeltaTime, ForceMode.Force);
-		#region timeToStop
+#region timeToStop
 		if (Mathf.Approximately(Velocity.x, 0f))
 		{
 			sw.Stop();
@@ -82,7 +86,7 @@ public class FirstPersonController : MonoBehaviour
 			StopTime = time > 0 ? time : StopTime; //assign only if greater than 0
 			sw.Reset();
 		}
-		#endregion
+#endregion
 	}
 
 	private void Rotate()

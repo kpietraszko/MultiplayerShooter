@@ -33,7 +33,8 @@ public class PlayerInput : IInput
 		if (_keys.TryGetValue(action, out keyCode)){
 			return Input.GetKeyDown(keyCode);
 		}
-		else throw new KeyNotFoundException("PlayerInput doesn't have a key assigned to " + action.ToString());
+		return false;
+		//else throw new KeyNotFoundException("PlayerInput doesn't have a key assigned to " + action.ToString());
 	}
 
 	public void UpdateInput()

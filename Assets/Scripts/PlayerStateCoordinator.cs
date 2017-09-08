@@ -8,12 +8,14 @@ public class PlayerStateCoordinator : MonoBehaviour
 {
 	IInput _input;
 	FirstPersonController _controller;
-	Transform trans;
+	Transform _trans;
 	Rigidbody _rigidbody;
 #if !SERVER
 	Queue<State> StatesFromServer;
 	NetPeer Server;
 	bool ConnectedToServer = false;
+#else
+	Queue<StateAndInput> StatesFromClient;
 #endif
 
 	void OnEnable()
@@ -39,11 +41,13 @@ public class PlayerStateCoordinator : MonoBehaviour
 	{
 #if !SERVER
 		StatesFromServer = new Queue<State>();
+#else
+		StatesFromClient = new Queue<StateAndInput>();
 #endif
 		_controller = GetComponent<FirstPersonController>();
 		_rigidbody = GetComponent<Rigidbody>();
 		_input = _controller.Input;
-		trans = transform;
+		_trans = transform;
 	}
 
 #if !SERVER
@@ -70,24 +74,33 @@ public class PlayerStateCoordinator : MonoBehaviour
 #else
 	void FixedUpdate()
 	{
-
+		if (StatesFromClient.Count > 0)
+		{
+			var client0state = StatesFromClient.Dequeue();
+			_trans.position = client0state.state.position;
+			_trans.rotation = client0state.state.rotation;
+			_rigidbody.velocity = client0state.state.velocity;
+		}
 	}
 #endif
 
+#if SERVER
 	private void OnServerReceivedData(NetDataReader reader)
 	{
 		var stateAndInput = new StateAndInput();
 		stateAndInput.Unpack(reader);
-		UnityEngine.Debug.Log($"Received {stateAndInput.state}");
+		StatesFromClient.Enqueue(stateAndInput);
+		//Debug.Log($"Received {stateAndInput.state}");
 	}
+#endif
 
 	State ConstructState()
 	{
 		State state = new State
 		{
 			index = 0,
-			position = trans.position,
-			rotation = trans.rotation,
+			position = _trans.position,
+			rotation = _trans.rotation,
 			velocity = _rigidbody.velocity
 		};
 		return state;
